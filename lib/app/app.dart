@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:to_do_app/core/utils/app_colors.dart';
+
 import 'package:to_do_app/core/utils/app_strings.dart';
+import 'package:to_do_app/features/auth/persentation/screens/splach_screen/splach_screen.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -13,9 +14,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: AppStrings.appName,
       
-      home: Scaffold(
-        backgroundColor: AppColors.background,
-      ),
+      home:SplachScreen(),
     
       );
      
