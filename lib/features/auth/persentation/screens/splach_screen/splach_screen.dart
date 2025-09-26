@@ -6,7 +6,7 @@ import 'package:to_do_app/core/utils/app_assets.dart';
 import 'package:to_do_app/core/utils/app_colors.dart';
 import 'package:to_do_app/core/utils/app_strings.dart';
 import 'package:to_do_app/features/auth/persentation/screens/onboarding/onboarding_screen.dart';
-import 'package:to_do_app/features/task/persentation/screens/home_screen.dart';
+import 'package:to_do_app/features/task/persentation/screens/home_screen/home_screen.dart';
 
 class SplachScreen extends StatefulWidget {
   const SplachScreen({super.key});
