@@ -2,7 +2,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
+import 'package:to_do_app/core/database/cashe/cashe_helper.dart';
+import 'package:to_do_app/core/database/sqflite_helper/sqflite.dart';
+import 'package:to_do_app/core/services/service.dart';
 import 'package:to_do_app/core/utils/app_colors.dart';
+import 'package:to_do_app/features/task/data/model/task_model.dart';
 import 'package:to_do_app/features/task/persentation/cubit/task_state.dart';
 
 class TaskCubit extends Cubit<TaskState> {
@@ -105,5 +109,93 @@ class TaskCubit extends Cubit<TaskState> {
     emit(GetSelectedDateSucessState());
     getTasks();
   }
+    List<TaskModel> tasksList = [];
+  void insertTask() async {
+    emit(InsertTaskLoadingState());
 
+    try {
+      await s1<SqfliteHelper>().insertToDB(
+        TaskModel(
+          date: DateFormat.yMd().format(currentDate),
+          title: titleController.text,
+          note: noteController.text,
+          startTime: startTime,
+          endTime: endTime,
+          isCompleted: 0,
+          color: currentIndex,
+        ),
+      );
+     
+      //! to make screen wait 1 second
+      //  await  Future.delayed(const Duration(seconds: 3));
+      //   tasksList.add(TaskModel(
+      //     id: '1',
+      //     date: DateFormat.yMd().format(currentDate),
+      //     title: titleController.text,
+      //     note: noteController.text,
+      //     startTime: startTime,
+      //     endTime: endTime,
+      //     isCompleted: false,
+      //     color: currentIndex,
+      //   ));
+      titleController.clear();
+      noteController.clear();
+      emit(InsertTaskSucessState());
+      getTasks();
+    } catch (e) {
+      emit(InsertTaskErrorState());
+    }
+  }
+  void getTasks() async {
+    emit(GetDateLoadingState());
+    await s1<SqfliteHelper>().getFromDB().then((value) {
+      tasksList = value
+          .map((e) => TaskModel.fromJson(e))
+          .toList()
+          .where(
+            (element) => element.date == DateFormat.yMd().format(selctedDate),
+          )
+          .toList();
+      emit(GetDateSucessState());
+    }).catchError((e) {
+      print(e.toString());
+      emit(GetDateErrorState());
+    });
+  }
+
+
+  void updateTask(id) async {
+    emit(UpdateTaskLoadingState());
+
+    await s1<SqfliteHelper>().updatedDB(id).then((value) {
+      emit(UpdateTaskSucessState());
+      getTasks();
+    }).catchError((e) {
+      print(e.toString());
+      emit(UpdateTaskErrorState());
+    });
+  }
+    void deleteTask(id) async {
+    emit(DeleteTaskLoadingState());
+
+    await s1<SqfliteHelper>().deleteFromDB(id).then((value) {
+      emit(DeleteTaskSucessState());
+      getTasks();
+    }).catchError((e) {
+      print(e.toString());
+      emit(DeleteTaskErrorState());
+    });
+  }
+   bool isDark = false;
+  void changeTheme() async {
+    isDark = !isDark;
+    await s1<CacheHelper>().saveData(key: 'isDark', value: isDark);
+    emit(ChangeThemeState());
+  }
+
+  void getTheme() async {
+    isDark = await s1<CacheHelper>().getData(key: 'isDark');
+    emit(GetThemeState());
+  }
 }
+
