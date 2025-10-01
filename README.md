@@ -1,16 +1,32 @@
-# to_do_app
+📌 Todo App
 
-A new Flutter project.
+A simple To-Do application built with Flutter.
+It helps you add, edit, delete, and manage your daily tasks with local notifications.
 
-## Getting Started
+🚀 Features
 
-This project is a starting point for a Flutter application.
+Add / Edit / Delete tasks
 
-A few resources to get you started if this is your first Flutter project:
+Mark tasks as completed or pending
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+Store data locally using sqflite
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+State management with Bloc
+
+Local notifications for task reminders
+
+Clean Architecture structure
+
+get_it for Dependency Injection
+
+🛠️ Tech Stack
+
+Flutter (Dart)
+flutter_bloc
+get_it
+sqflite
+flutter_local_notifications
+
+flutter_bloc
+
+get_it
